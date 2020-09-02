@@ -1,0 +1,16 @@
+/* Colors */
+$orange-ultipay: #ff8a00;
+$custom-grey: #f0f0f0;
+$custom-grey-text: #666666;
+$font-def: #474747;
+$font-grey: #747b84;
+$gray-300: #dee2e6 !default;
+$gray-700: #393E44; /* Card background */
+$gray-800: #2D3035; /* Menu background */
+$gray-900: #22252C; /* Body background */
+$dark: $gray-900;
+$table-dark-bg: $gray-700;
+
+/* Shadows */
+$container-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
+

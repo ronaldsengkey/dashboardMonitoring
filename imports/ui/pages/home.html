@@ -1,0 +1,42 @@
+<template name="home">
+    <div class="row align-items-stretch min-vh-100">
+        <div class="col-3">
+            <div class="bg-gray-700 rounded py-3 h-100"></div>
+        </div>
+        <div class="col-9">
+            <div id="dataTabs" class="bg-gray-700 rounded py-3 overflow-auto" data-tabs="chart-filter">
+                <div class="p-3 mb-4 d-flex justify-content-between align-items-center">
+                    <h4 class="text-light m-0">Transaction</h4>
+                    <div class="d-flex align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn text-white focus-remove after-remove mr-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Status
+                                <i class="fa fa-angle-down ml-1"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <button id="filterBtn" class="dropdown-item" data-filter="status" data-value="200" type="button">200</button>
+                                <button id="filterBtn" class="dropdown-item" data-filter="status" data-value="414" type="button">414</button>
+                                <button id="filterBtn" class="dropdown-item" data-filter="status" data-value="406" type="button">406</button>
+                                <button id="filterBtn" class="dropdown-item" data-filter="status" data-value="500" type="button">500</button>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button id="timeRange" type="button" class="btn text-white focus-remove after-remove mr-2">
+                                Time Ranges
+                                <i class="fa fa-angle-down ml-1"></i>
+                            </button>
+                        </div>
+                        <p id="tableTabBtn" class="btn m-0 p-2 text-white"><i class="fa fa-table"></i></p>
+                        <p id="chartTabBtn" style="display: none" class="btn m-0 p-2 text-white"><i class="fa fa-area-chart"></i></p>
+                    </div>
+                </div>
+                {{> homeTransactionChart }}
+                {{> homeTransactionTable }}
+            </div>
+        </div>
+    </div>
+    <!-- {{ #each logs }}
+        <p>{{ accessor }}</p>
+    {{ /each }} -->
+</template>
