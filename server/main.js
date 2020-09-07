@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
+import { encryptMessage, getSignature, aesEncrypt, rsaEncrypt } from '../crypto.js';
+import { keyAES, ivAES, keyAESClient, ivAESClient, serverKey, publicKey, publicServer, privateKey, publicCredential, appId } from "../keyData.json";
+
 
 Meteor.startup(() => {
     // code to run on server at startup
@@ -29,7 +32,7 @@ const httpPostAsync = (url, options) => new Promise((resolve, reject) => {
 Meteor.methods({
     async getLogs(param) { //getLogs
         console.log('Getting getLogs', param);
-        console.log('Getting getLogs2', JSON.stringify(param));
+        // console.log('Getting getLogs2', JSON.stringify(param));
         try {
             if(param != 'all') {
                 param = JSON.stringify(param);
@@ -42,29 +45,72 @@ Meteor.methods({
                     'param': param
                 }
             });
-            console.log('response getLogs', response.data);
+            // console.log('response getLogs', response.data);
             return response.data;
         } catch (ex) {
             throw new Meteor.Error('some-error', ex);
         }
     },
-    async login() { //login
-        console.log('Getting login');
+    async login(params) { //login
+        let p={};
+        let data = {
+            'email': params.email,
+            'password': params.password
+        };
+        // data = iterateObject(data)
+        // console.log('data =>',data);
+
+        p.params = iterateObject(data)
+        // p = {
+        //     params: {
+        //         'email': params.email,
+        //         'password': params.password
+        //     }
+        // };
+        console.log('param =>',JSON.stringify(p))
+        let signature = getSignature();
+        signature = aesEncrypt(signature)
+        let clientKey = aesEncrypt(publicKey);
+        let aes = rsaEncrypt(ivAESClient);
+
         try {
-            const response = await httpPostAsync('http://192.168.0.96:8443/authentication/login/employee', {
+            const response = await httpPostAsync('http://192.168.0.59:8202/authentication/login/employee', {
                 'headers': {
-                    'Content-Type': 'application/json',
-                    'signature' : 'Dfc5j2ptdXsT87ZmgrUFikzXt77IH3jRbN/whtHXs4E+ZH3iCOIFNONHHbc10Ym5QGlNvgWS0O8vLBq556hK7N6M4CzVCQncniMRBDkY6vITP9EvK084BmImN/ES8bv/c16mftYF7ioOiSHrMePm6ulp16yMJbRQKK+t3dQTu7YGegoI7Bpg+spMOI6HVfviHjbMobicp2tUuZNcNMmFLqqCTbggQkeuvnHcQsVxsRZ4oWUM4xXtNjhZsf6jXBOCPA4zFXAPyTsjyeGJa9SP5UycmF5ttQmMFNvR7doeDDy/LDEPzxqPQUzfjhlmkZ9Ln9TVukUIoZBawYkHSPa8XjHmIP20HU4bA4USykq6wZUZVP+X9OhTsAiC6WxXJ6cB1CGzEjR8ICZSiG4j1TWjyoXyfLi5ynoFT2VszYC5GZNhLrWGw0Eytm+XLNoY/02fzrr081MFBhFnCrEVn4rJYYVX21nX9uyMk3gKQAb/SOPUVa4nYBSw1N9IW66PI+K5L3ICmzhBM7dPC9LUSVO38xRPNXaFw5j9TFSoWYClXY3YV109RDY6v5EcXyqAMonDFa4Vpf1vAHP1r41RCEoMQ/7/FjFyO5V1L4zRlKsRXGZapTOUpiY4t9l3wr4y4LSNf0sFneVgJouRlexwO6AXPZZ7SLxxczrhVbzQr0iQV7yo/Uqbp1hTPaoxInG8dLK4+iDwjXio8titmdTNfYoCQTNUtCTKysRqPQRrsJx0gKfvLUEmRL4RoSq6i3pLJK+S',
-                    'clientKey' : '5QnNeLmYyweViavQTc3iDe6V4EVPApBs+YGJZNFLCYJD6lNKM0j4W7P6rrQLaLfpUJUlXcMYY12dLQ0lfiyluC3DyQ1ed5+TPH0tjmFmFjt8xxxexbeMeCUaXGBg6xnSl5MxRc6YyZ6w5muibIscH4Vtn78W1GwZCOy689SpGaUbFA0vB0Ed12JSXUO1hTGEAGz3ResPqrKGzXPK82dHsNwZCdLth9z0Jt+ydxQ6+JOOGCAffI3vkSw+f+SmKR0ovSZcOIFdes/sKwPiaqolmu1dATHNlG7HutbFiwYKsxUPFCQdxcA+H3rJbirBvgAL+7tr7aAEtpwYxjfqKZ1NWg==',
-                    'aes' : 'QdJuUj2z7zcH/Lc4G2yewwiS2jzRonIHRKOJn/nYiLTaUVCzjTenWw6qIioOGnEwxun0G459e60eCqKLsBNor2W1sRJkyBhTKjT6dJCGVwm0BXRvvrEr7N5bDiSRCjlqXHkvoJdU45xx1fQsGE7oP/meX4KXFA41GS4VjK/5DXU='
-        
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Cache-Control": "no-cache",
+                    'signature' : signature,
+                    'clientKey' : clientKey,
+                    'params' : JSON.stringify(p),
+                    'aes' : aes
                 },
-                body: '{"params":{"email":"email","password":"password"}}'
+                // body: '{"params":{"email":"rNdZP6lER9SmlNw4FfJq4RKlF6SVpwVYScYj3b2O3C5rStofU6BZgfnpb8B1C0RllA7KFrr2Oxn1VNzCOd9h6ddgWKVPn81ZLbPWycP7c53sQhdIAvy6ICPiaO2DGR9ZcwGpCaaQKrjDzysA6oxy/94wWHMC9ucJsRL7KTeIdOmZ6Aq4sF8bto1k0JwZbQr5sHkH0gymsHLCP0OxhvtQ9cL/2jDv9NQmhTgIpCepHUs=","password":"n9RPaOtdGbfG4CSRuUPX/71A9nSxExee6mOWRC2TGrZmLjyCHmIBsX6cmjY+w8tgiccG0xY2Px89sjgSHbpDJJd/CGsVEAl/e4zfgAz55EevzIqDSWthSHXDdl+PiwPVjqSGJMDa0gotQWMWQzLVbU0iyhGMMZs2mEqqR5fBXjBJ9xNSYLI94v4FIdWruN6gDxd7AqtNFYEgaHq97mUI62KqhultUmAZu2nZLbf0P8Y="}}'
+                "processData": false,
+                "body": JSON.stringify(p)
             });
-            console.log('response getLogs', response.data);
-            return response.data;
+            // const response = await httpGetAsync('http://192.168.0.59:8208/log/log', {
+            //     'headers': {
+            //         'Content-Type': 'application/json',
+            //         'signature': 'signature',
+            //         'token': 'token',
+            //         'param': param
+            //     }
+            // });            
+            // console.log('response getLogs', response.data);
+            return response.data; 
         } catch (ex) {
             throw new Meteor.Error('some-error', ex);
         }
     },
 });
+
+function iterateObject(obj) {
+    Object.keys(obj).forEach((key) => {
+      if (typeof obj[key] === "object") {
+        iterateObject(obj[key]);
+      } else {
+        obj[key] = encryptMessage(obj[key]);
+      }
+    });
+    return obj;
+  }
