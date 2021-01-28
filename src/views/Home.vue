@@ -1,137 +1,147 @@
 <template>
   <div class="home">
-    <!-- <h2 class="mt-2 font-weight-black pl-4 ">Home Page</h2> -->
-    <v-carousel class="" hide-delimiters height="200">
-      <v-carousel-item
-        v-for="(item,i) in items"
-        :key="i"
-        :src="item.src"
-        :class="rounded-lg"
-      ></v-carousel-item>
-    </v-carousel>
+    <v-layout fill-height>
+      <v-navigation-drawer
+        v-model="drawer"
+        :mini-variant.sync="mini"
+        permanent
+        app
+      >
+        <v-list-item class="listItem secondary">
+          <v-list-item-avatar>
+            <v-img :src="adminImage"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-title class="title white--text">
+            {{adminName}}
+          </v-list-item-title>
+          <v-btn icon @click.stop="mini = !mini">
+            <v-icon color="white">mdi-chevron-left</v-icon>
+          </v-btn>
+        </v-list-item>
 
-    <v-fade-transition mode="out-in">
-      <v-container class="grey lighten-5">
-      <!-- <v-row no-gutters>
-        <v-col
-          v-for="n in 3"
-          :key="n"
-          cols="4"
-          sm="4"
+        <v-divider></v-divider>
+
+        <v-list dense>
+          <v-list-item v-for="item in items" :key="item.title" :name="item.title" router :to="item.link" @click="doLogout(item.title)">
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </v-layout>
+
+    <v-snackbar
+      :timeout="timeout"
+      v-model="snackbar"
+      rounded="pill"
+      dense
+    >
+      {{logoutResponse}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
         >
-          <v-card
-            class="pa-1 ma-1"
-            outlined
-            tile
-          >
-            <v-img
-              lazy-src="https://picsum.photos/id/11/10/6"
-              max-height="150"
-              max-width="250"
-              src="https://picsum.photos/id/11/500/300"
-            ></v-img>
-          </v-card>
-        </v-col>
-      </v-row> -->
+          Close
+        </v-btn>
+      </template>
 
-      <v-row>
-        <v-col cols="4">
-          <v-card class="text-center pt-3">
-            <center>
-              <v-img
-                max-height="40"
-                max-width="40"
-                lazy-src="https://cdn.onlinewebfonts.com/svg/img_486935.png"
-                src="https://cdn.onlinewebfonts.com/svg/img_486935.png"
-              ></v-img>
-            </center>
-            <v-card-subtitle class="subtitle-2 text-center">
-              Stylist
-            </v-card-subtitle>
-          </v-card>
-        </v-col>
-        <v-col cols="4">
-          <v-card class="text-center pt-3">
-            <center>
-              <v-img
-                max-height="80"
-                max-width="80"
-                lazy-src="https://cdn.onlinewebfonts.com/svg/img_531937.png"
-                src="https://cdn.onlinewebfonts.com/svg/img_531937.png"
-              ></v-img>
-            </center>
-            <v-card-subtitle class="subtitle-2 text-center">
-              Body Fit
-            </v-card-subtitle>
-          </v-card>
-        </v-col>
-        <v-col cols="4">
-          <v-card class="text-center pt-3">
-            <!-- <v-icon class="mt-3"
-              large
-              color="orange darken-2"
-            >
-              mdi-message-text
-            </v-icon> -->
-            <center>
-              <v-img
-                  max-height="40"
-                  max-width="40"
-                  lazy-src="https://www.flaticon.com/svg/static/icons/svg/2965/2965462.svg"
-                  src="https://www.flaticon.com/svg/static/icons/svg/2965/2965462.svg"
-                ></v-img>
-            </center>
-            <v-card-subtitle class="subtitle-2 text-center">
-              Groomers
-            </v-card-subtitle>
-          </v-card>
-        </v-col>
-        <!-- <v-col cols="4">
-          <v-card class="text-align:center;">
-            <v-img
-              src="https://picsum.photos/350/165?random"
-              height="66"
-              class="grey darken-4"
-            ></v-img>
-            <v-card-subtitle class="subtitle-2 text-center">
-              Groomers
-            </v-card-subtitle>
-          </v-card>
-        </v-col> -->
-      </v-row>
+    </v-snackbar>
 
-    </v-container>
+    <v-app-bar class="appbar primary" app>
+      <v-toolbar-title class="white--text">IT Dashboard</v-toolbar-title>
+    </v-app-bar>
 
-
-    </v-fade-transition>
+    <v-main style="padding:6px 0px 0px 12px">
+      <router-view></router-view>
+    </v-main>
   </div>
 </template>
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  data () {
-      return {
-        items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          },
-        ],
-      }
+  data: () => ({
+    timeout: 2000,
+    snackbar:false,
+    logoutResponse:'',
+    adminName: '',
+    adminImage:'https://randomuser.me/api/portraits/men/85.jpg',
+    drawer: null,
+    items: [
+      { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
+      { title: "Monitoring", icon: "mdi-laptop",link: "/monitor" },
+      { title: "Logout", icon: "mdi-logout-variant",link: "" },
+    ],
+    mini: true,
+  }),
+  mounted(){
+    this.adminName = JSON.parse(window.atob(window.localStorage.getItem('loginCred'))).employee_name
+    this.adminImage = JSON.parse(window.atob(window.localStorage.getItem('loginCred'))).employee_profile_img
+  },
+  methods:{
+    async clearState(){
+      let state = this.$store.state;
+      let newState = {};
+
+      Object.keys(state).forEach(key => {
+        newState[key] = []; // or = initialState[key]
+      });
+
+      this.$store.replaceState(newState);
     },
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+    async doLogout(title){
+      if(title == 'Logout'){
+        const headers = {
+            'Content-Type': 'application/json',
+            'signature': this.$signature,
+            token:JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
+            "Accept": "*/*",
+            "Cache-Control": "no-cache",
+          }
+
+          let uriEncodeLogin = encodeURIComponent(this.$localIp);
+          const request = new Request(
+            this.$urlLink+'/authentication/logout?v=1&continue='+uriEncodeLogin+'&flowEntry='+this.$flowEntry+'',
+            {
+              method: "POST",
+              headers:headers,
+              redirect:'follow',
+              mode: "cors",
+            }
+          );
+          let res = await fetch(request)
+          let resJson = await res.json();
+          if(resJson.responseCode == '200'){
+            // await this.clearState()
+            setTimeout(() => {
+              window.location.href = decodeURIComponent(uriEncodeLogin)
+            }, 1000);
+          } else {
+            this.snackbar = true;
+            this.logoutResponse = resJson.responseMessage
+          }
+      }
+    }
+  },
+};
 </script>
+
+<style scoped>
+  .appbar{
+    height: 56px !important
+  }
+
+  .listItem {
+    padding: 0 10px
+  }
+
+  .home {
+    padding: 15px
+  }
+</style>
