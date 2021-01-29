@@ -151,14 +151,47 @@ export default {
       });
       let res = await fetch(request);
       let resJson = await res.json();
-      this.loginResponse = 'login success';
       this.snackbar = true;
       this.loading = false;
       if(resJson.responseCode == 200 || resJson.responseCode == '200') {
+        this.loginResponse = 'login success';
         window.localStorage.setItem('loginCred',window.btoa(JSON.stringify(resJson.data)));
         setTimeout(() => {
             window.location.href = redirectUri;
         }, 500);
+      } else {
+        await this.doLogout('Logout');
+      }
+    },
+
+    async doLogout(title){
+      if(title == 'Logout'){
+        const headers = {
+            'Content-Type': 'application/json',
+            'signature': this.$signature,
+            token:JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
+            "Accept": "*/*",
+            "Cache-Control": "no-cache",
+          }
+
+          let uriEncodeLogin = encodeURIComponent(this.$localIp);
+          const request = new Request(
+            this.$urlLink+'/authentication/logout?v=1&continue='+uriEncodeLogin+'&flowEntry='+this.$flowEntry+'',
+            {
+              method: "POST",
+              headers:headers,
+              redirect:'follow',
+              mode: "cors",
+            }
+          );
+          let res = await fetch(request)
+          let resJson = await res.json();
+          this.snackbar = true;
+          if(resJson.responseCode == '200'){
+            this.loginResponse = 'Login Failed, please try again'
+          } else {
+            this.loginResponse = resJson.responseMessage
+          }
       }
     },
 
