@@ -67,7 +67,7 @@
 <script>
 export default {
   data: () => ({
-    timeout: 2000,
+    timeout: 3000,
     snackbar:false,
     logoutResponse:'',
     adminName: '',

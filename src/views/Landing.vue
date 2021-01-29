@@ -22,7 +22,7 @@ export default {
     show:false,
     snackbar: false,
     checkTokenResponse: "",
-    timeout: 2000,
+    timeout: 3000,
   }),
   methods: {
     async checkToken(storageCheck){

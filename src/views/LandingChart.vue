@@ -9,7 +9,7 @@
     >
       <v-row>
         <v-col cols="12">
-          <draggable tag="v-layout">
+          <draggable>
             <v-card shaped outlined hover class="my-5 transactionChart">
               <v-card-title class="primary white--text">
                 Transaction Chart

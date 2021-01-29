@@ -224,10 +224,9 @@
                 :class="{ orangeText: sortBy === 'ticket_number' }"
               >
                 {{ item.ticket_number }}
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="item.approval == 1">
                   <template
                     v-slot:activator="{ on, attrs }"
-                    v-if="item.approval == 1"
                   >
                     <v-icon
                       v-bind="attrs"
@@ -240,10 +239,9 @@
                   </template>
                   <span>Approved</span>
                 </v-tooltip>
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="item.approval == -1">
                   <template
                     v-slot:activator="{ on, attrs }"
-                    v-if="item.approval == -1"
                   >
                     <v-icon v-bind="attrs" v-on="on" color="red" class="ml-2">
                       mdi-close
@@ -251,10 +249,9 @@
                   </template>
                   <span>Rejected</span>
                 </v-tooltip>
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="item.approval == 0">
                   <template
                     v-slot:activator="{ on, attrs }"
-                    v-if="item.approval == 0"
                   >
                     <v-icon v-bind="attrs" v-on="on" class="ml-2">
                       mdi-email-open-outline
@@ -374,7 +371,7 @@ export default {
     return {
       snackbar: false,
       anyResponse: "",
-      timeout: 2000,
+      timeout: 3000,
       itemsPerPageArray: [8, 16, 24],
       search: "",
       showDetail: false,
@@ -516,25 +513,28 @@ export default {
       let accountProfileGrade = JSON.parse(
         window.atob(window.localStorage.getItem("loginCred"))
       ).grade;
-      // supervisor and above grade will always have the option for accept or reject ticketing
-      if (accountProfileGrade <= 4) this.responseAprroval = true;
+      let accountProfileId = JSON.parse(
+        window.atob(window.localStorage.getItem("loginCred"))
+      ).employee_id;
+      // supervisor or above grade and staff in charge is not the user login can do accept or reject ticketing
+      if (accountProfileGrade <= 4 && item.staff_in_charge != accountProfileId) this.responseAprroval = true;
       // if ticketing approval status is already processed then hide button for accept and reject ticketing
       if (item.approval != "0") this.responseAprroval = false;
       // if status is not yet resolved and user login grade is staff and below then hide resolve button
-      if (item.status == "2" && accountProfileGrade > 4)
+      if ((item.status == "2" && accountProfileGrade > 4) || (item.status == "2" && accountProfileGrade < 4 && item.ticket_departement_category != null))
         this.staffGrade = false;
       // if login user grade is supervisor or above and staff in charge is the login user then show assign staff button
       if (accountProfileGrade <= 4 && item.staff_in_charge == null)
         this.assignStaffButton = true;
       else this.assignStaffButton = false;
       // if login user grade is staff or below and ticket department category is null then show open category button and hide resolve button
-      if (accountProfileGrade > 4 && item.ticket_departement_category == null) {
+      if ((accountProfileGrade > 4 && item.ticket_departement_category == null) || (item.ticket_departement_category == null && item.staff_in_charge == accountProfileId)) {
         this.staffChooseCategory = true;
         this.staffGrade = false;
       }
       // if login user grade is staff or below and ticket department category is not null then hide open category button and show resolve button
       if (
-        accountProfileGrade > 4 &&
+        (accountProfileGrade > 4 || item.staff_in_charge == accountProfileId) &&
         item.ticket_departement_category != null &&
         item.status != "2"
       ) {

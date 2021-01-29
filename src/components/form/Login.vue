@@ -65,7 +65,7 @@ export default {
       load: false,
       snackbar: false,
       loginResponse: "",
-      timeout: 2000,
+      timeout: 3000,
       signature: this.$signature,
       loading: false,
       show1: false,
