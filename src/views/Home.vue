@@ -75,7 +75,7 @@ export default {
     drawer: null,
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
-      { title: "Monitoring", icon: "mdi-laptop",link: "/monitor" },
+      // { title: "Monitoring", icon: "mdi-laptop",link: "/monitor" },
       { title: "Logout", icon: "mdi-logout-variant",link: "" },
     ],
     mini: true,
