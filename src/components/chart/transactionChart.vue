@@ -1,60 +1,47 @@
 <template>
-  <v-card-text>
-    <v-row>
-      <v-col cols="10">
-        <v-sheet color="rgba(0, 0, 0, .12)">
+  <v-row>
+    <v-col cols="9">
+      <chart
+        :chartData="transactionAll"
+        :options="chartOptions"
+        :xAxis="xAxisTransactionAll"
+        label="Transaction Count"
+        :key="keyTransactionAll"
+      ></chart>
+      <v-row>
+        <v-col>
           <v-card-text class="text-left">
-            <div class="subtitle-1 font-weight-thin">Transaction Chart</div>
+            {{ pending }}%
+            <div class="subtitle-1 font-weight-thin">Pending Transaction</div>
           </v-card-text>
-          <chart
-            :chartData="transactionAll"
-            :options="chartOptions"
-            :xAxis="xAxisTransactionAll"
-            label="Transaction Count"
-            :key="keyTransactionAll"
-          ></chart>
-          <v-row>
-            <v-col>
-              <v-card-text class="text-left">
-                {{ pending }}%
-                <div class="subtitle-1 font-weight-thin">
-                  Pending Transaction
-                </div>
-              </v-card-text>
-            </v-col>
-            <v-col>
-              <v-card-text class="text-left" style="width: auto !important">
-                {{ success }}%
-                <div class="subtitle-1 font-weight-thin">
-                  Success Transaction
-                </div>
-              </v-card-text>
-            </v-col>
-            <v-col>
-              <v-card-text class="text-left" style="width: auto !important">
-                {{ failed }}%
-                <div class="subtitle-1 font-weight-thin">
-                  Failed Transaction
-                </div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-sheet>
-      </v-col>
-      <v-col cols="2">
-        <v-tabs vertical grow center-active style="min-height: 100%">
-          <v-tab @click="updateCharts('all')"> All </v-tab>
-          <v-tab @click="updateCharts('topup')"> {{ dataTopup }}% Topup</v-tab>
-          <v-tab @click="updateCharts('billing')">
-            {{ dataBilling }}% Billing
-          </v-tab>
-          <v-tab @click="updateCharts('payment')">
-            {{ dataWallet }}% Wallet
-          </v-tab>
-        </v-tabs>
-      </v-col>
-    </v-row>
-  </v-card-text>
+        </v-col>
+        <v-col>
+          <v-card-text class="text-left" style="width: auto !important">
+            {{ success }}%
+            <div class="subtitle-1 font-weight-thin">Success Transaction</div>
+          </v-card-text>
+        </v-col>
+        <v-col>
+          <v-card-text class="text-left" style="width: auto !important">
+            {{ failed }}%
+            <div class="subtitle-1 font-weight-thin">Failed Transaction</div>
+          </v-card-text>
+        </v-col>
+      </v-row>
+    </v-col>
+    <v-col cols="3">
+      <v-tabs vertical grow center-active style="min-height: 100%">
+        <v-tab @click="updateCharts('all')"> All </v-tab>
+        <v-tab @click="updateCharts('topup')"> {{ dataTopup }}% Topup</v-tab>
+        <v-tab @click="updateCharts('billing')">
+          {{ dataBilling }}% Billing
+        </v-tab>
+        <v-tab @click="updateCharts('payment')">
+          {{ dataWallet }}% Wallet
+        </v-tab>
+      </v-tabs>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

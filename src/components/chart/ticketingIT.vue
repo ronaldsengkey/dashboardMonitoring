@@ -3,22 +3,48 @@
     <v-data-iterator
       :items="dataTicketingIT"
       :items-per-page.sync="itemsPerPage"
-      :page="page"
+      :page.sync="page"
       :search="search"
+      :sort-by="sortBy.toLowerCase()"
+      :sort-desc="sortDesc"
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar dark class="mb-1 primary">
-          <v-text-field
-            v-model="search"
-            clearable
-            flat
-            solo-inverted
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            label="Search"
-          ></v-text-field>
-        </v-toolbar>
+        <v-row>
+          <v-col cols="4">
+            <v-text-field
+              v-model="search"
+              clearable
+              flat
+              solo-inverted
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              label="Search"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="4">
+            <v-select
+              v-model="sortBy"
+              flat
+              solo-inverted
+              hide-details
+              :items="usedSortBy"
+              prepend-inner-icon="mdi-magnify"
+              label="Sort by"
+            ></v-select>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-btn-toggle v-model="sortDesc" mandatory>
+              <v-btn large depressed :value="false">
+                <v-icon color="#f86615">mdi-arrow-up</v-icon>
+              </v-btn>
+              <v-btn large depressed :value="true">
+                <v-icon color="#f86615">mdi-arrow-down</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
       </template>
 
       <template v-slot:default="props">
@@ -192,8 +218,11 @@
             md="4"
             lg="3"
           >
-            <v-card>
-              <v-card-title class="subheading font-weight-light">
+            <v-card class="cardTicket" outlined shaped hover>
+              <v-card-title
+                class="subheading font-weight-light"
+                :class="{ orangeText: sortBy === 'ticket_number' }"
+              >
                 {{ item.ticket_number }}
                 <v-tooltip bottom>
                   <template
@@ -235,25 +264,40 @@
                 </v-tooltip>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
-                  <template
-                    v-slot:activator="{ on, attrs }"
-                  >
-                    <v-icon @click="openDetailTicketing(item)" v-bind="attrs" v-on="on" class="ml-2">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      @click="openDetailTicketing(item)"
+                      v-bind="attrs"
+                      v-on="on"
+                      class="ml-2"
+                    >
                       mdi-eye
                     </v-icon>
                   </template>
                   <span>Show Detail</span>
                 </v-tooltip>
               </v-card-title>
-              <v-card-title class="title">
+              <v-card-title
+                class="title"
+                :class="{ orangeText: sortBy === 'title' }"
+              >
                 {{ item.title }}
               </v-card-title>
               <v-divider></v-divider>
 
               <v-list dense>
                 <v-list-item>
-                  <v-list-item-content>
+                  <v-list-item-content
+                    :class="{ orangeText: sortBy === 'descriptions' }"
+                  >
                     {{ item.descriptions }}
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content
+                    :class="{ orangeText: sortBy === 'created_at' }"
+                  >
+                    {{ item.created_at | moment }}
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -295,10 +339,10 @@
           <span class="mr-4 grey--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn fab dark class="mr-1 primary" @click="formerPage">
+          <v-btn fab dark small class="mr-1 primary" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab dark class="ml-1 primary" @click="nextPage">
+          <v-btn fab dark small class="ml-1 primary" @click="nextPage">
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-row>
@@ -307,7 +351,7 @@
     <v-snackbar :timeout="timeout" v-model="snackbar" rounded="pill" dense>
       {{ anyResponse }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+        <v-btn color="orange" text v-bind="attrs" @click="snackbar = false">
           Close
         </v-btn>
       </template>
@@ -331,7 +375,7 @@ export default {
       snackbar: false,
       anyResponse: "",
       timeout: 2000,
-      itemsPerPageArray: [8, 16, 24,32,40,48,56,64,72,80],
+      itemsPerPageArray: [8, 16, 24],
       search: "",
       showDetail: false,
       highGrade: false,
@@ -353,7 +397,7 @@ export default {
       detailData: {},
       staffList: [],
       categoryList: [],
-      sortBy: "title",
+      sortBy: "created_at",
       staffGrade: false,
       assignStaffButton: false,
       responseAprroval: false,
@@ -375,6 +419,8 @@ export default {
         "staff_in_charge",
         "username",
       ],
+      usedSortBy: ["title", "ticket_number", "descriptions", "created_at"],
+      sortDesc: true,
     };
   },
   computed: {
@@ -697,7 +743,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format("DD MMM YYYY");
+      return moment(date).format("DD MMMM YYYY");
     },
     status: function (status) {
       let statusResp;
@@ -751,6 +797,12 @@ export default {
   color: white;
 }
 .title {
-  padding-top:0px;
+  padding-top: 0px;
+}
+.orangeText {
+  color: #f86615;
+}
+.cardTicket {
+  cursor:auto !important;
 }
 </style>

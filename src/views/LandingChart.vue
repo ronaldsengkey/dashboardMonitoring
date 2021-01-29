@@ -9,60 +9,60 @@
     >
       <v-row>
         <v-col cols="12">
-          <TransactionChart
-            :success="success"
-            :failed="failed"
-            :pending="pending"
-            :dataTopup="dataTopup"
-            :dataBilling="dataBilling"
-            :dataWallet="dataWallet"
-            :transactionAll="transactionAll"
-            :xAxisTransactionAll="xAxisTransactionAll"
-            :keyTransactionAll="keyTransactionAll"
-            :ticketingOpenCloseCount="ticketingOpenCloseCount"
-            :xAxisTicketingOpenClose="xAxisTicketingOpenClose"
-            :keyTicketing="keyTicketing"
-            @updateCharts="updateCharts($event)"
-          />
-
-          <v-row>
-            <v-col cols="6">
-              <v-card-text>
-                <v-sheet color="rgba(0, 0, 0, .12)">
-                  <v-card-text class="text-left">
-                    <div class="subtitle-1 font-weight-thin">
-                      Customer Activity
-                    </div>
-                  </v-card-text>
-                  <CustomerTransaction  :dataCustomerTransaction="dataCustomerTransaction" />
-                </v-sheet>
-              </v-card-text>
-            </v-col>
-            <v-col cols="6">
-              <v-card-text>
-                <v-sheet color="rgba(0, 0, 0, .12)">
-                  <v-card-text class="text-left">
-                    <div class="subtitle-1 font-weight-thin">
-                      Ticketing open & close chart
-                    </div>
-                    <TicketingStatus
-                      :ticketingOpenCloseCount="ticketingOpenCloseCount"
-                      :xAxisTicketingOpenClose="xAxisTicketingOpenClose"
-                      :keyTicketing="keyTicketing"
-                    />
-                  </v-card-text>
-                </v-sheet>
-              </v-card-text>
-            </v-col>
-          </v-row>
-          <v-card-text>
-            <v-sheet color="rgba(0, 0, 0, .12)">
-              <v-card-text class="text-left">
-                <div class="subtitle-1 font-weight-thin">Ticketing Queue</div>
-              </v-card-text>
+          <draggable tag="v-layout">
+            <v-card shaped outlined hover class="my-5 transactionChart">
+              <v-card-title class="primary white--text">
+                Transaction Chart
+              </v-card-title>
+              <TransactionChart
+                :success="success"
+                :failed="failed"
+                :pending="pending"
+                :dataTopup="dataTopup"
+                :dataBilling="dataBilling"
+                :dataWallet="dataWallet"
+                :transactionAll="transactionAll"
+                :xAxisTransactionAll="xAxisTransactionAll"
+                :keyTransactionAll="keyTransactionAll"
+                :ticketingOpenCloseCount="ticketingOpenCloseCount"
+                :xAxisTicketingOpenClose="xAxisTicketingOpenClose"
+                :keyTicketing="keyTicketing"
+                @updateCharts="updateCharts($event)"
+              />
+            </v-card>
+            <v-row class="my-5">
+              <v-col cols="6">
+                <v-card shaped outlined hover>
+                  <v-card-title class="primary white--text">
+                    Customer Activity
+                  </v-card-title>
+                  <v-divider></v-divider>
+                  <CustomerTransaction
+                    :dataCustomerTransaction="dataCustomerTransaction"
+                  />
+                </v-card>
+              </v-col>
+              <v-col cols="6">
+                <v-card shaped outlined hover>
+                  <v-card-title class="primary white--text">
+                    Ticketing open & close chart
+                  </v-card-title>
+                  <v-divider></v-divider>
+                  <TicketingStatus
+                    :ticketingOpenCloseCount="ticketingOpenCloseCount"
+                    :xAxisTicketingOpenClose="xAxisTicketingOpenClose"
+                    :keyTicketing="keyTicketing"
+                  />
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-card shaped outlined hover class="my-5 ticketingIT">
+              <v-card-title class="primary white--text">
+                Ticketing Queue
+              </v-card-title>
               <TicketingIT :dataTicketingIT="dataTicketingIT" />
-            </v-sheet>
-          </v-card-text>
+            </v-card>
+          </draggable>
         </v-col>
       </v-row>
     </v-card>
@@ -76,6 +76,7 @@ import TicketingStatus from "@/components/chart/ticketingStatus";
 import TransactionChart from "@/components/chart/transactionChart";
 import TicketingIT from "@/components/chart/ticketingIT";
 import CustomerTransaction from "@/components/chart/customerTransaction";
+import draggable from "vuedraggable";
 
 const gradients = [
   ["#222"],
@@ -92,7 +93,8 @@ export default {
     TicketingStatus,
     TransactionChart,
     TicketingIT,
-    CustomerTransaction
+    CustomerTransaction,
+    draggable,
   },
   props: {
     // open and close ticket
@@ -170,7 +172,7 @@ export default {
       type: Array,
       defult: [],
       required: true,
-    }
+    },
   },
   methods: {
     updateCharts(filter) {
@@ -215,3 +217,12 @@ export default {
   name: "LandingChart",
 };
 </script>
+
+<style scoped>
+.transactionChart {
+  cursor: auto !important;
+}
+.ticketingIT {
+  cursor: auto !important;
+}
+</style>

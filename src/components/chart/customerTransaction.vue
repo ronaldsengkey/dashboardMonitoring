@@ -33,7 +33,14 @@
             </v-row>
           </v-col>
           <v-col class="text-center" cols="5">
-            {{ data.created_at | moment }}
+            <v-row>
+              <v-col></v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                {{ data.created_at | moment }}
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-timeline-item>
