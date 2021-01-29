@@ -598,7 +598,7 @@ export default {
         ).grade;
         dataJson = dataJson.filter(function (e) {
           if (uGrade != 4) {
-            return e.grade == uGrade + 1;
+            return parseInt(e.grade) == parseInt(uGrade) + 1;
           } else {
             return e.grade > uGrade;
           }
