@@ -6,7 +6,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.use(require("moment"));
 Vue.config.productionTip = false
-Vue.prototype.$urlLink = 'https://sandbox2.api.ultipay.id:8443'
+Vue.prototype.$urlLink = 'https://sandbox.api.ultipay.id:8443'
 Vue.prototype.$localIp = 'http://sandbox.dashboard.ultipay.id:8109/#/'
 Vue.prototype.$flowEntry = 'itDashboard'
 

@@ -103,7 +103,7 @@ import { store } from "@/store/index";
 Vue.use(
   new VueSocketIO({
     debug: false,
-    connection: 'https://sandbox2.api.ultipay.id:8443',
+    connection: 'https://sandbox.api.ultipay.id:8443',
     options: { path: "/configService" },
     vuex: {
       store,
