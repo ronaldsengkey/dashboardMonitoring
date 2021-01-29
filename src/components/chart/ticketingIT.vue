@@ -568,6 +568,7 @@ export default {
       this.dialog2 = !this.dialog2;
       this.staffListSelect = 0;
       this.staffList = [];
+      this.onLoadEmployee = true;
       const headers = {
         "Content-Type": "application/json",
         token: JSON.parse(window.atob(window.localStorage.getItem("loginData")))
@@ -593,14 +594,14 @@ export default {
       this.onLoadEmployee = false;
       if (resJson.responseCode == 200) {
         let dataJson = resJson.data;
-        let uGrade = JSON.parse(
+        let uOccupationGrade = JSON.parse(
           window.atob(window.localStorage.getItem("loginCred"))
-        ).grade;
+        ).occupation_grade;
         dataJson = dataJson.filter(function (e) {
-          if (uGrade != 4) {
-            return parseInt(e.grade) == parseInt(uGrade) + 1;
+          if (uOccupationGrade != '9' || uOccupationGrade != 9) {
+            return parseInt(e.occupation_grade) == parseInt(uOccupationGrade) + 1;
           } else {
-            return e.grade > uGrade;
+            return parseInt(e.occupation_grade) > parseInt(uOccupationGrade);
           }
         });
         this.staffList = dataJson;
