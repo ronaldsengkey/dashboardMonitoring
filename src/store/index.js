@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as moment from "moment/moment";
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ export const store = new Vuex.Store({
     dataTicketing:[],
     dataTicketingIT:[],
     dataTransactionAll:[],
-    dataCustomerTransactionSocket:[]
+    dataCustomerTransactionSocket:[],
+    dataLog:[]
   },
   mutations: {
     // SOCKET_manageService(state,payload) {
@@ -85,20 +87,29 @@ export const store = new Vuex.Store({
     },
     SOCKET_emitCustomerTransaction(){
       this._vm.$socket.emit("getCustomerTransaction");
+    },
+    getLogMutate(state,payload){
+      state.dataLog = payload;
     }
   },
   actions: {
     SOCKET_connect(state){
-      state.commit('SOCKET_emitService');
-      state.commit('SOCKET_emitTicketing');
-      state.commit('SOCKET_emitTransaction');
-      state.commit('SOCKET_emitCustomerTransaction');
+      // state.commit('SOCKET_emitService');
+      // state.commit('SOCKET_emitTicketing');
+      // state.commit('SOCKET_emitTransaction');
+      // state.commit('SOCKET_emitCustomerTransaction');
     },
     SOCKET_disconnected(state){
       console.log('aa disconnectt');
     },
     SOCKET_toDisconnect(state){
       this._vm.$socket.disconnect()
+    },
+    SOCKET_emitAll(state){
+      state.commit('SOCKET_emitService');
+      state.commit('SOCKET_emitTicketing');
+      state.commit('SOCKET_emitTransaction');
+      state.commit('SOCKET_emitCustomerTransaction');
     },
     // SOCKET_getService(context,data) {
     //   context.commit('SOCKET_manageService',data);
@@ -118,13 +129,42 @@ export const store = new Vuex.Store({
     // SOCKET_updateService(context,data){
     //   context.commit('SOCKET_updateServiceData',data);
     // }
+    async getLogList(context,data){
+      const headers = {
+        'Content-Type': 'application/json',
+        'signature': data.signature,
+        token: JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
+        "Accept": "*/*",
+        secretKey:'',
+        "Cache-Control": "no-cache",
+        'param': JSON.stringify({"module": ""})
+
+      }
+      const request = new Request(
+        data.link+'/backend/logcrud',
+        {
+          method: "GET",
+          headers:headers,
+          redirect:'follow',
+          mode: "cors",
+        }
+      );
+      let res = await fetch(request)
+      let resJson = await res.json();
+      if(resJson.responseCode == 200 || resJson.responseCode == '200')
+      context.commit('getLogMutate',resJson.data)
+      else 
+      context.commit('getLogMutate',[]);
+    }
   },
   getters: {
-    // getServiceData: state => {
-    //   console.log('a',state.serviceData);
-    // }
-    // getLoginToken: state => {
-    //   return JSON.parse(window.atob(state.loginData)).token
-    // },
+    getMomentedLog: state => {
+      let dataLog = state.dataLog
+      dataLog.forEach(element => {
+        element.created_at = moment(element.created_at).format("DD MMM YYYY");
+        return element;
+      });
+      return dataLog;
+    }
   }
 })

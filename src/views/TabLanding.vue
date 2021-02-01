@@ -401,6 +401,9 @@ export default {
       this.dataCustomerTransaction = data;
     }
   },
+  mounted(){
+    this.$store.dispatch('SOCKET_emitAll');
+  },
   sockets: {
     async getService(data){
       this.listOfService = [];
