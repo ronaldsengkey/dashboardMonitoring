@@ -153,17 +153,40 @@ export const store = new Vuex.Store({
       let resJson = await res.json();
       if(resJson.responseCode == 200 || resJson.responseCode == '200')
       context.commit('getLogMutate',resJson.data)
+      else if(resJson.responseCode == 401 || resJson.responseCode == '401')
+      context.commit('getLogMutate',401);
       else 
       context.commit('getLogMutate',[]);
     }
   },
   getters: {
     getMomentedLog: state => {
-      let dataLog = state.dataLog
-      dataLog.forEach(element => {
-        element.created_at = moment(element.created_at).format("DD MMM YYYY");
-        return element;
+      var rpCurrencyFormatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       });
+
+      let dataLog = state.dataLog
+      if(dataLog != 401){
+        dataLog.forEach(element => {
+          delete element['id'];
+          delete element['created_date'];
+          delete element['crud_id'];
+          element.created_at = moment(element.created_at).format("DD MMM YYYY");
+          try {
+            if(element.description.includes('(amount)')){
+              let getDesc = element.description.split('(amount)');
+              getDesc[1] = rpCurrencyFormatter.format(getDesc[1]);
+              element.description = getDesc[0] + ' (amount) ' + getDesc[1]
+            }
+          } catch (error) {
+            
+          }
+          return element;
+        });
+      }
       return dataLog;
     }
   }
