@@ -214,7 +214,7 @@ export default {
     categories:'',
     modules:'',
     descriptions:'',
-    userId: 0,
+    userId: null,
     userName:'',
     createdAt:'',
 
