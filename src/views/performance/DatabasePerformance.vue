@@ -20,8 +20,8 @@
 
               <v-card-text class="pt-0">
                 <div class="title font-weight-light mt-2 white--text">
-                  <mark v-if="service.marks">{{ service.serviceName }}</mark>
-                  <div v-if="!service.marks">{{ service.serviceName }}</div>
+                  <mark v-if="service.marks">{{ service.serviceName }} ({{service.type}})</mark>
+                  <div v-if="!service.marks">{{ service.serviceName }} ({{service.type}})</div>
                 </div>
                 <v-divider class="my-2"></v-divider>
                 <v-icon class="mr-2" small color="white"> mdi-domain </v-icon>
