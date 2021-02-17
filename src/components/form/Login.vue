@@ -72,8 +72,10 @@ export default {
       show2: true,
       show3: false,
       show4: false,
-      email: "dickybudianto+itg4@usahakreatif.co.id",
-      password: "111111",
+      // email: "dickybudianto+itg4@usahakreatif.co.id",
+      // password: "111111",
+      email: '',
+      password: '',
       rules: {
         required: (value) => !!value || "Required.",
         email: (value) => {
