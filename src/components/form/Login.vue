@@ -102,19 +102,12 @@ export default {
           signature: this.$signature,
           "content-type": "application/json",
           token: tokenData,
+          'uri':encodeURIComponent(this.$localIp)
         };
-        let finalUrl = this.$urlLink + "/authentication/identifier";
-        "?v=1" +
-          "&flowEntry=" +
-          this.$flowEntry +
-          "&continue=" +
-          encodeURIComponent(this.$localIp);
 
-        const request = new Request(finalUrl, {
+        const request = new Request('checkToken', {
           method: "GET",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
         });
         let res = await fetch(request);
         let resJson = await res.json();
@@ -137,19 +130,12 @@ export default {
         signature: this.$signature,
         "content-type": "application/json",
         token: JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
+        'uri': encodeURIComponent(this.$localIp)
       };
-      let finalUrl = this.$urlLink + "/authentication/getData"+
-      "?v=1" +
-        "&flowEntry=" +
-        this.$flowEntry +
-        "&continue=" +
-        encodeURIComponent(this.$localIp);
 
-      const request = new Request(finalUrl, {
+      const request = new Request('employeeData', {
         method: "GET",
         headers: headers,
-        redirect: "follow",
-        mode: "cors",
       });
       let res = await fetch(request);
       let resJson = await res.json();
@@ -168,22 +154,21 @@ export default {
 
     async doLogout(title){
       if(title == 'Logout'){
+        let uriEncodeLogin = encodeURIComponent(this.$localIp);
         const headers = {
             'Content-Type': 'application/json',
             'signature': this.$signature,
             token:JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
             "Accept": "*/*",
             "Cache-Control": "no-cache",
+            "uri":uriEncodeLogin
           }
 
-          let uriEncodeLogin = encodeURIComponent(this.$localIp);
           const request = new Request(
-            this.$urlLink+'/authentication/logout?v=1&continue='+uriEncodeLogin+'&flowEntry='+this.$flowEntry+'',
+            'logout',
             {
               method: "POST",
               headers:headers,
-              redirect:'follow',
-              mode: "cors",
             }
           );
           let res = await fetch(request)
@@ -209,34 +194,42 @@ export default {
         };
         this.loading = true;
 
+        let uriEncode = encodeURIComponent(this.$localIp) + "home";
+
         const headers = {
           "Content-Type": "application/json",
           signature: this.signature,
-          version: "1",
           Accept: "*/*",
           "Cache-Control": "no-cache",
+          'uri': uriEncode,
+          'body': JSON.stringify(dataLogin)
         };
 
-        let uriEncode = encodeURIComponent(this.$localIp) + "home";
-
         const request = new Request(
-          this.$urlLink +
-            "/authentication/signin?continue=" +
-            uriEncode +
-            "&flowEntry=itDashboard",
+          'login',
           {
             method: "POST",
             headers: headers,
-            redirect: "follow",
-            mode: "cors",
             body: JSON.stringify(dataLogin),
           }
         );
         let res = await fetch(request);
         let resJson = await res.json();
+        console.log('ress',resJson);
         if (resJson.responseCode == "200") {
           window.localStorage.setItem('loginData',window.btoa(JSON.stringify(resJson.data)));
           await this.fireGetData(resJson.data.redirectUri);
+        } else if(resJson.responseCode == '401' && resJson.responseMessage.includes('already login')) {
+          this.loading = false;
+          try {
+            let storageCheck = window.localStorage.getItem('loginData');
+            if (storageCheck !== null || storageCheck !== undefined || storageCheck !== '') {
+             await this.doLogout('Logout')
+            }
+          } catch (error) {
+            
+          }
+         
         } else {
           this.loginResponse = resJson.responseMessage;
           this.snackbar = true;

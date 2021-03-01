@@ -98,22 +98,22 @@ export default {
     },
     async doLogout(title){
       if(title == 'Logout'){
+        let uriEncodeLogin = encodeURIComponent(this.$localIp);
         const headers = {
             'Content-Type': 'application/json',
             'signature': this.$signature,
             token:JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
             "Accept": "*/*",
             "Cache-Control": "no-cache",
+            "uri":uriEncodeLogin
           }
 
-          let uriEncodeLogin = encodeURIComponent(this.$localIp);
+          
           const request = new Request(
-            this.$urlLink+'/authentication/logout?v=1&continue='+uriEncodeLogin+'&flowEntry='+this.$flowEntry+'',
+            'logout',
             {
               method: "POST",
               headers:headers,
-              redirect:'follow',
-              mode: "cors",
             }
           );
           let res = await fetch(request)

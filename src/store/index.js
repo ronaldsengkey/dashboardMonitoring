@@ -135,18 +135,16 @@ export const store = new Vuex.Store({
         'signature': data.signature,
         token: JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
         "Accept": "*/*",
-        secretKey:'',
+        secretkey:'',
         "Cache-Control": "no-cache",
         'param': JSON.stringify({"module": ""})
 
       }
       const request = new Request(
-        data.link+'/backend/logcrud',
+        'logCrud',
         {
           method: "GET",
           headers:headers,
-          redirect:'follow',
-          mode: "cors",
         }
       );
       let res = await fetch(request)

@@ -13,6 +13,7 @@ export default {
     Vue.prototype.$localIp = window.location.href;
     Vue.prototype.$flowEntry = process.env.VUE_APP_FLOWENTRY;
     Vue.prototype.$signature = process.env.VUE_APP_SIGNATURE;
+    Vue.prototype.$version = process.env.VUE_APP_VERSION;
   }
 }
 </script>

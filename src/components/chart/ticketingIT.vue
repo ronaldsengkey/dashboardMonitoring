@@ -452,12 +452,10 @@ export default {
         }),
       };
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/departemenCategory",
+        'departmentCategory',
         {
           method: "GET",
-          headers: headers,
-          redirect: "follow",
-          mode: "cors",
+          headers: headers
         }
       );
       let res = await fetch(request);
@@ -485,12 +483,10 @@ export default {
         ).employee_id,
       };
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/acceptTicketing",
+        'chooseCategory',
         {
           method: "POST",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
           body: JSON.stringify(bodyCategory),
         }
       );
@@ -579,14 +575,12 @@ export default {
           window.atob(window.localStorage.getItem("loginCred"))
         ).company_id,
       };
-
+      console.log('aa',this.$urlLink);
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/employee",
+        'assignStaffData',
         {
           method: "GET",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
         }
       );
       let res = await fetch(request);
@@ -627,12 +621,10 @@ export default {
           .employee_email,
       };
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/approveTicket",
+        'approveTicket',
         {
           method: "POST",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
           body: JSON.stringify(bodyUpdate),
         }
       );
@@ -668,12 +660,10 @@ export default {
           .employee_email,
       };
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/replyTicketing",
+        'resolveTicket',
         {
           method: "POST",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
           body: JSON.stringify(bodyAssign),
         }
       );
@@ -705,12 +695,10 @@ export default {
           .employee_email,
       };
       const request = new Request(
-        this.$urlLink + "/backend/dashboardit/assignTicket",
+        'assignStaff',
         {
           method: "POST",
           headers: headers,
-          redirect: "follow",
-          mode: "cors",
           body: JSON.stringify(bodyAssign),
         }
       );

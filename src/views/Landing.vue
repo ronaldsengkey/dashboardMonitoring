@@ -38,19 +38,12 @@ export default {
         signature: this.$signature,
         "content-type": "application/json",
         token: tokenData,
+        'uri':encodeURIComponent(this.$localIp)
       };
-      let finalUrl = this.$urlLink + "/authentication/identifier"+
-      "?v=1" +
-        "&flowEntry=" +
-        this.$flowEntry +
-        "&continue=" +
-        encodeURIComponent(this.$localIp);
 
-      const request = new Request(finalUrl, {
+      const request = new Request('checkToken', {
         method: "GET",
-        headers: headers,
-        redirect: "follow",
-        mode: "cors",
+        headers: headers
       });
       let res = await fetch(request);
       let resJson = await res.json();
@@ -65,29 +58,28 @@ export default {
     },
     async doLogout(title){
       if(title == 'Logout'){
+        let uriEncodeLogin = encodeURIComponent(this.$localIp);
         const headers = {
             'Content-Type': 'application/json',
             'signature': this.$signature,
             token:JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
             "Accept": "*/*",
             "Cache-Control": "no-cache",
+            "uri":uriEncodeLogin
           }
 
-          let uriEncodeLogin = encodeURIComponent(this.$localIp);
           const request = new Request(
-            this.$urlLink+'/authentication/logout?v=1&continue='+uriEncodeLogin+'&flowEntry='+this.$flowEntry+'',
+            'logout',
             {
               method: "POST",
-              headers:headers,
-              redirect:'follow',
-              mode: "cors",
+              headers:headers
             }
           );
           let res = await fetch(request)
           let resJson = await res.json();
           if(resJson.responseCode == '200'){
             this.$store.dispatch('SOCKET_toDisconnect');
-            await this.clearState()
+            // await this.clearState()
             setTimeout(() => {
               window.location.href = decodeURIComponent(uriEncodeLogin)
               window.location.reload()

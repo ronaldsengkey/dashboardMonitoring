@@ -1,17 +1,21 @@
 const express = require('express');
 var app = express();
 const got = require('got');
+var bodyParser = require('body-parser')
+require('dotenv').config()
 
 const port = 8109;
-let defHeaders = {'Content-Type': 'application/json'};
+let defHeaders = {'Content-Type': 'application/json',"Accept": "*/*","Cache-Control": "no-cache"};
 let gotReq = got.extend({
-	prefixUrl: 'https://reqres.in/',
+    prefixUrl: process.env.VUE_APP_URL_LINK + '/',
 	responseType: 'json',
     resolveBodyOnly: true,
 });
 
 // Middleware for serving '/dist' directory
 const staticFileMiddleware = express.static('dist');
+
+app.use(bodyParser.json());
 
 // 1st call for unredirected requests 
 app.use(staticFileMiddleware);
@@ -57,10 +61,71 @@ async function gotCall({url,data = {},method = 'get',headerExtra = {}}){
     })
 }
 
-app.post("/halo", async (req, res) => {
-    // res.send('page not found');
-    // console.log('tes',await gotCall({method:'get',url:'api/users'}))
-    console.log('req',req.headers)
-    let callData = await gotCall({method:'get',url:'api/users'})
+// CREDENTIAL
+app.post("/login", async (req, res) => {
+    let callData = await gotCall({method:'post',data:{body: JSON.stringify(req.body)},url:'authentication/signin?continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{version:req.headers.version,signature:req.headers.signature}})
+    console.log('login res',callData.responseCode);
+    res.send(callData);
+});
+
+app.get("/employeeData", async (req, res) => {
+    let callData = await gotCall({url:'authentication/getData?v='+process.env.VUE_APP_VERSION+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'&continue='+req.headers.uri+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('employee data res',callData.responseCode);
+    res.send(callData);
+});
+
+app.get("/checkToken", async (req, res) => {
+    let callData = await gotCall({url:'authentication/identifier?v='+process.env.VUE_APP_VERSION+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'&continue='+req.headers.uri+'',headerExtra:{signature:req.headers.signature,token:req.headers.token,Authorization:req.headers.authorization}})
+    console.log('employee data res',callData.responseCode);
+    res.send(callData);
+});
+
+app.post("/logout", async (req, res) => {
+    let callData = await gotCall({method:'post',url:'authentication/logout?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('logout res',callData.responseCode)
+    res.send(callData);
+});
+
+// LOG CRUD
+app.get("/logCrud", async (req, res) => {
+    let callData = await gotCall({url:'backend/logcrud',headerExtra:{signature:req.headers.signature,token:req.headers.token,secretKey:req.headers.secretkey,param:req.headers.param}})
+    console.log('log crud res',callData.responseCode);
+    res.send(callData);
+});
+
+// TICKETING
+app.get("/assignStaffData", async (req, res) => {
+    let callData = await gotCall({url:'backend/dashboardit/employee',headerExtra:{token:req.headers.token,companyProfileId:req.headers.companyprofileid}})
+    console.log('assign staff data res',callData.responseCode);
+    res.send(callData);
+});
+
+app.post("/assignStaff", async (req, res) => {
+    let callData = await gotCall({method:'post',data:{body: JSON.stringify(req.body)},url:'backend/dashboardit/assignTicket',headerExtra:{token:req.headers.token}})
+    console.log('assign staff post res',callData);
+    res.send(callData);
+});
+
+app.post("/approveTicket", async (req, res) => {
+    let callData = await gotCall({method:'post',data:{body: JSON.stringify(req.body)},url:'backend/dashboardit/approveTicket',headerExtra:{token:req.headers.token}})
+    console.log('approve ticket res',callData.responseCode);
+    res.send(callData);
+});
+
+app.get("/departmentCategory", async (req, res) => {
+    let callData = await gotCall({url:'backend/dashboardit/departemenCategory',headerExtra:{token:req.headers.token,param:req.headers.param}})
+    console.log('department category res',callData.responseCode);
+    res.send(callData);
+});
+
+app.post("/chooseCategory", async (req, res) => {
+    let callData = await gotCall({method:'post',data:{body: JSON.stringify(req.body)},url:'backend/dashboardit/acceptTicketing',headerExtra:{token:req.headers.token}})
+    console.log('choose category res',callData.responseCode);
+    res.send(callData);
+});
+
+app.post("/resolveTicket", async (req, res) => {
+    let callData = await gotCall({method:'post',data:{body: JSON.stringify(req.body)},url:'backend/dashboardit/replyTicketing',headerExtra:{token:req.headers.token}})
+    console.log('resolve ticket res',callData.responseCode);
     res.send(callData);
 });
