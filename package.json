@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "serve -s dist -l 8109",
-    "server": "nodemon server.js",
+    "server": "serve -s dist -l 8109",
+    "start": "nodemon server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
