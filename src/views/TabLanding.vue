@@ -103,7 +103,7 @@ import { store } from "@/store/index";
 Vue.use(
   new VueSocketIO({
     debug: false,
-    connection: process.env.VUE_APP_URL_LINK,
+    connection: process.env.VUE_APP_URL_SOCKET,
     options: { path: "/configService" },
     vuex: {
       store,
