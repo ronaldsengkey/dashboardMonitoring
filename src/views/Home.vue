@@ -120,9 +120,7 @@ export default {
           let resJson = await res.json();
           if(resJson.responseCode == '200'){
             // await this.clearState()
-            setTimeout(() => {
-              window.location.href = decodeURIComponent(uriEncodeLogin)
-            }, 1000);
+            window.location.href = decodeURIComponent(uriEncodeLogin)
           } else {
             this.snackbar = true;
             this.logoutResponse = resJson.responseMessage

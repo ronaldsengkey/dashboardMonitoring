@@ -80,10 +80,7 @@ export default {
           if(resJson.responseCode == '200'){
             this.$store.dispatch('SOCKET_toDisconnect');
             // await this.clearState()
-            setTimeout(() => {
-              window.location.href = decodeURIComponent(uriEncodeLogin)
-              window.location.reload()
-            }, 1000);
+            window.location.href = decodeURIComponent(uriEncodeLogin)
           } else {
             this.snackbar = true;
             this.logoutResponse = resJson.responseMessage
