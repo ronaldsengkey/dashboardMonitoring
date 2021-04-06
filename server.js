@@ -129,3 +129,253 @@ app.post("/resolveTicket", async (req, res) => {
     console.log('resolve ticket res',callData.responseCode);
     res.send(callData);
 });
+
+// MASTER DATA -> IDENTITY APP
+app.get("/identity_app", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('identity app get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/identity_app", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('identity app post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/identity_app", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('identity app put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/identity_app", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('identity app delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> DIVISION
+app.get("/division", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/division?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('division get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/division", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/division?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('division post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/division", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/division?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('division put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/division", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/division?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('division delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> BANK
+app.get("/bank", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/bank?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('bank get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/bank", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/bank?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('bank post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/bank", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/bank?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('bank put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/bank", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/bank?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('bank delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> COUNTRY
+app.get("/country", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/country?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('country get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/country", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/country?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('country post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/country", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/country?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('country put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/country", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/country?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('country delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> CITY
+app.get("/city", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/city?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('city get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/city", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/city?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('city post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/city", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/city?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('city put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/city", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/city?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('city delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> CURRENCY
+app.get("/currency", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/currency?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('currency get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/currency", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/currency?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('currency post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/currency", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/currency?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('currency put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/currency", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/currency?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('currency delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> TICKETING TYPE
+app.get("/ticketing_type", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/ticketingType?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('ticketingType get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/ticketing_type", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/ticketingType?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('ticketingType post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/ticketing_type", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/ticketingType?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('ticketingType put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/ticketing_type", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/ticketingType?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('ticketingType delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> TICKETING TOPIC
+app.get("/ticketing_topic", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/topicCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('topicCategory get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/ticketing_topic", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/topicCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('topicCategory post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/ticketing_topic", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/topicCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('topicCategory put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/ticketing_topic", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/topicCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('topicCategory delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> TENANT
+app.get("/tenant_category", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/tenantCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('tenantCategory get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/tenant_category", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/tenantCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('tenantCategory post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/tenant_category", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/tenantCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('tenantCategory put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/tenant_category", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/tenantCategory?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('tenantCategory delete res',callData.responseCode)
+    res.send(callData);
+});
+
+// MASTER DATA -> Notification
+app.get("/notification", async (req, res) => {
+    let callData = await gotCall({method:'get',url:'backend/data/master/notification?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('notification get res',callData.responseCode)
+    res.send(callData);
+});
+
+app.post("/notification", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'backend/data/master/notification?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('notification post res',callData.responseCode)
+    res.send(callData);
+});
+
+app.put("/notification", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'backend/data/master/notification?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('notification put res',callData.responseCode)
+    res.send(callData);
+});
+
+app.delete("/notification", async (req, res) => {
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'backend/data/master/notification?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    console.log('notification delete res',callData.responseCode)
+    res.send(callData);
+});

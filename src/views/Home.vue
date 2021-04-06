@@ -76,6 +76,7 @@ export default {
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
       { title: "Log", icon: "mdi-laptop",link: "/log" },
+      { title: "Master", icon: "mdi-database",link: "/master" },
       { title: "Profile", icon: "mdi-card-account-details",link: "/profile" },
       { title: "Logout", icon: "mdi-logout-variant",link: "" },
     ],

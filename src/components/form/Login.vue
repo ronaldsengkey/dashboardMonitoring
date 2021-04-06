@@ -113,7 +113,7 @@ export default {
         let resJson = await res.json();
         this.load = false;
         if(resJson.responseCode == '200'){
-          window.location.href = this.$localIp +'home'
+          window.location.href = this.$localIp +'/#/home'
         }
       } catch (error) {
         this.load = false;
@@ -176,6 +176,7 @@ export default {
           this.snackbar = true;
           if(resJson.responseCode == '200'){
             this.loginResponse = 'Login Failed, please try again'
+            window.location.href = decodeURIComponent(uriEncodeLogin)
           } else {
             this.loginResponse = resJson.responseMessage
           }
@@ -194,7 +195,7 @@ export default {
         };
         this.loading = true;
 
-        let uriEncode = encodeURIComponent(this.$localIp) + "home";
+        let uriEncode = encodeURIComponent(this.$localIp + "/#/home");
 
         const headers = {
           "Content-Type": "application/json",

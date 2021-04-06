@@ -169,6 +169,15 @@
                   :disabled="onLoadEmployee"
                   :loading="onLoadEmployee"
                 ></v-select>
+                <v-select
+                  v-model="ticketPriority"
+                  :items="prioTicket"
+                  label="Priority"
+                  item-text="label"
+                  item-value="id"
+                  :disabled="onLoadEmployee"
+                  :loading="onLoadEmployee"
+                ></v-select>
               </v-card-text>
               <v-card-actions class="justify-space-around">
                 <v-btn
@@ -386,6 +395,21 @@ export default {
       onLoadStatusTicketing: false,
       onLoadAssign: false,
       staffListSelect: null,
+      ticketPriority: null,
+      prioTicket : [
+        {
+          label:'Low',
+          id: "0"
+        },
+        {
+          label:'Medium',
+          id: "1"
+        },
+        {
+          label:'High',
+          id: "2"
+        },
+      ],
       categoryListSelect: null,
       page: 1,
       itemsPerPage: 8,
@@ -693,6 +717,7 @@ export default {
         ).employee_id,
         email: JSON.parse(window.atob(window.localStorage.getItem("loginCred")))
           .employee_email,
+        priority: this.ticketPriority
       };
       const request = new Request(
         'assignStaff',

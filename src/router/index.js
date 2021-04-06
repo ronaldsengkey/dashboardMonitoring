@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Log from '../views/Log.vue'
 import Profile from '../views/Profile.vue'
+import Master from '../views/Master.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,10 @@ const routes = [
       {
         path: '/profile',
         component: Profile
+      },
+      {
+        path: '/master',
+        component: Master
       }
     ]
   },
