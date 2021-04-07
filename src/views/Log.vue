@@ -109,6 +109,11 @@ export default {
     let data = { signature: this.$signature, link: this.$urlLink };
     this.$store.dispatch("getLogList", data);
   },
+  mounted(){
+    this.load = true;
+    this.cardLoad = "info";
+    this.logData = ''; 
+  },
   computed: {
     logData: function () {
       this.load = false;

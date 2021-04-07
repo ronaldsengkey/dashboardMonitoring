@@ -73,15 +73,26 @@ export default {
     adminName: '',
     adminImage:'https://randomuser.me/api/portraits/men/85.jpg',
     drawer: null,
-    items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
-      { title: "Log", icon: "mdi-laptop",link: "/log" },
-      { title: "Master", icon: "mdi-database",link: "/master" },
-      { title: "Profile", icon: "mdi-card-account-details",link: "/profile" },
-      { title: "Logout", icon: "mdi-logout-variant",link: "" },
-    ],
     mini: true,
   }),
+  computed: {
+    items : function(){
+      if(JSON.parse(window.atob(window.localStorage.getItem("loginCred"))).auth_id == 2)
+      return [
+        { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
+        { title: "Log", icon: "mdi-laptop",link: "/log" },
+        { title: "Master", icon: "mdi-database",link: "/master" },
+        { title: "Profile", icon: "mdi-card-account-details",link: "/profile" },
+        { title: "Logout", icon: "mdi-logout-variant",link: "" },
+      ]
+      else return [
+        { title: "Dashboard", icon: "mdi-view-dashboard",link: "/home" },
+        { title: "Log", icon: "mdi-laptop",link: "/log" },
+        { title: "Profile", icon: "mdi-card-account-details",link: "/profile" },
+        { title: "Logout", icon: "mdi-logout-variant",link: "" },
+      ]
+    }
+  },
   mounted(){
     this.adminName = JSON.parse(window.atob(window.localStorage.getItem('loginCred'))).employee_name
     this.adminImage = JSON.parse(window.atob(window.localStorage.getItem('loginCred'))).employee_profile_img
