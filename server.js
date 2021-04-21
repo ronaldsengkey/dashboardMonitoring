@@ -41,23 +41,28 @@ async function gotCall({url,data = {},method = 'get',headerExtra = {}}){
         if(headerExtra != {}) gotReq = gotReq.extend({headers: Object.assign(defHeaders,headerExtra)})
         else gotReq = gotReq.extend({headers: defHeaders})
 
-        switch(method){
-            case 'get':
-                callback = await gotReq.get(url)
-                break;
-            case 'post':
-                callback = await gotReq.post(url,data)
-                break;
-            case 'put':
-                callback = await gotReq.put(url,data)
-                break;
-            case 'delete':
-                callback = await gotReq.delete(url,data)
-                break;
-            default:
-                break;
+        try {
+            switch(method){
+                case 'get':
+                    callback = await gotReq.get(url)
+                    break;
+                case 'post':
+                    callback = await gotReq.post(url,data)
+                    break;
+                case 'put':
+                    callback = await gotReq.put(url,data)
+                    break;
+                case 'delete':
+                    callback = await gotReq.delete(url,data)
+                    break;
+                default:
+                    break;
+            }
+            resolve(callback)
+        } catch (error) {
+            console.log('a',error.response.body,data)
         }
-        resolve(callback)
+        
     })
 }
 
@@ -132,25 +137,25 @@ app.post("/resolveTicket", async (req, res) => {
 
 // MASTER DATA -> IDENTITY APP
 app.get("/identity_app", async (req, res) => {
-    let callData = await gotCall({method:'get',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    let callData = await gotCall({method:'get',url:'authentication/data/master/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
     console.log('identity app get res',callData.responseCode)
     res.send(callData);
 });
 
 app.post("/identity_app", async (req, res) => {
-    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'post',url:'authentication/data/master/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
     console.log('identity app post res',callData.responseCode)
     res.send(callData);
 });
 
 app.put("/identity_app", async (req, res) => {
-    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'put',url:'authentication/data/master/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
     console.log('identity app put res',callData.responseCode)
     res.send(callData);
 });
 
 app.delete("/identity_app", async (req, res) => {
-    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'authentication/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
+    let callData = await gotCall({data:{body: JSON.stringify(req.body)},method:'delete',url:'authentication/data/master/identityApp?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
     console.log('identity app delete res',callData.responseCode)
     res.send(callData);
 });

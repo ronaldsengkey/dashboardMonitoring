@@ -39,7 +39,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  v-if="item.type == 'dropdown' && 'request' in item"
+                  v-if="item.type == 'dropdown' && item.request"
                 >
                   <v-select
                     v-model="modelForm[item.model]"
@@ -54,7 +54,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  v-if="item.type == 'dropdown' && !'request' in item"
+                  v-if="item.type == 'dropdown' && !item.request"
                 >
                   <v-select
                     v-model="modelForm[item.model]"
@@ -331,30 +331,30 @@ export default {
         concern: "identity_app",
         src: require("../assets/master/identity_app.svg"),
       },
-      {
-        title: "Customer",
-        loading: "false",
-        concern: "customer",
-        src: require("../assets/master/customer.svg"),
-      },
-      {
-        title: "Partner",
-        loading: "false",
-        concern: "partner",
-        src: require("../assets/partner.svg"),
-      },
-      {
-        title: "Employee",
-        loading: "false",
-        concern: "employee",
-        src: require("../assets/employee.svg"),
-      },
-      {
-        title: "Vendor",
-        loading: "false",
-        concern: "vendor",
-        src: require("../assets/master/vendor.svg"),
-      },
+      // {
+      //   title: "Customer",
+      //   loading: "false",
+      //   concern: "customer",
+      //   src: require("../assets/master/customer.svg"),
+      // },
+      // {
+      //   title: "Partner",
+      //   loading: "false",
+      //   concern: "partner",
+      //   src: require("../assets/partner.svg"),
+      // },
+      // {
+      //   title: "Employee",
+      //   loading: "false",
+      //   concern: "employee",
+      //   src: require("../assets/employee.svg"),
+      // },
+      // {
+      //   title: "Vendor",
+      //   loading: "false",
+      //   concern: "vendor",
+      //   src: require("../assets/master/vendor.svg"),
+      // },
       {
         title: "Division",
         loading: "false",
@@ -486,6 +486,7 @@ export default {
               label: "Category",
               model: "category",
               type: "dropdown",
+              request:false,
               value: ["api", "web", "app"],
             },
           ];

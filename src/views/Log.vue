@@ -23,8 +23,6 @@
         no-results-text="empty results"
         multi-sort
         loading="load"
-        :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
       >
        <template v-slot:body="props">
         <tbody>
@@ -71,7 +69,7 @@
             </td>
             <td>
               <v-text-field
-                v-model="createdAt"
+                v-model="createdDatetime"
                 type="text"
                 label="date"
               ></v-text-field>
@@ -159,10 +157,10 @@ export default {
             return value.toLowerCase().includes((this.userName).toLowerCase());
           },
         },
-        { text: "Created At", value: "created_at",
+        { text: "Created At", value: "created_datetime",
            filter: (value) => {
-              if (!this.createdAt) return true
-              return value.toLowerCase().includes((this.createdAt).toLowerCase());
+              if (!this.createdDatetime) return true
+              return value.toLowerCase().includes((this.createdDatetime).toLowerCase());
             },
         },
       ];
@@ -221,14 +219,12 @@ export default {
     descriptions:'',
     userId: null,
     userName:'',
-    createdAt:'',
+    createdDatetime:'',
 
     // update component
     keyTable: 0,
     load: true,
     cardLoad: false,
-    sortDesc: true,
-    sortBy: ["created_at"],
   }),
 };
 </script>

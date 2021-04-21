@@ -168,11 +168,13 @@ export const store = new Vuex.Store({
 
       let dataLog = state.dataLog
       if(dataLog != 401){
+        dataLog = dataLog.sort().reverse()
         dataLog.forEach(element => {
           delete element['id'];
           delete element['created_date'];
+          delete element['created_at'];
           delete element['crud_id'];
-          element.created_at = moment(element.created_at).format("DD MMM YYYY");
+          // element.created_at = moment(element.created_at).format("DD MMM YYYY");
           try {
             if(element.description.includes('(amount)')){
               let getDesc = element.description.split('(amount)');
