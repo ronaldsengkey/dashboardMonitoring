@@ -133,7 +133,7 @@
                                 keys !== 'currency' &&
                                 keys !== 'symbol' &&
                                 keys !== 'lng' &&
-                                keys !== 'code' &&
+                                keys !== 'codes' &&
                                 keys !== 'iso' &&
                                 keys !== 'iso3' &&
                                 keys !== 'nicename' &&
@@ -700,7 +700,7 @@ export default {
               text: "ID",
               value: "id",
             },
-            { text: "Code", value: "code" },
+            { text: "Code", value: "codes" },
             { text: "Name", value: "name" },
             { text: "Actions", value: "actions", sortable: false },
           ];
@@ -954,6 +954,8 @@ export default {
             break;
           case "Bank":
             urls = "bank";
+            edited.code = edited.codes;
+            delete edited.codes;
             break;
           case "Country":
             urls = "country";

@@ -189,6 +189,7 @@ app.delete("/division", async (req, res) => {
 app.get("/bank", async (req, res) => {
     let callData = await gotCall({method:'get',url:'backend/data/master/bank?v='+process.env.VUE_APP_VERSION+'&continue='+req.headers.uri+'&flowEntry='+process.env.VUE_APP_FLOWENTRY+'',headerExtra:{signature:req.headers.signature,token:req.headers.token}})
     console.log('bank get res',callData.responseCode)
+    if(callData.responseCode == '200') { callData.data.forEach(element => { element['codes'] = element.code;delete element.code;});}
     res.send(callData);
 });
 
