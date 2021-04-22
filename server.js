@@ -98,6 +98,13 @@ app.get("/logCrud", async (req, res) => {
     res.send(callData);
 });
 
+// LOG ACTIVITY
+app.get("/logActivity", async (req, res) => {
+    let callData = await gotCall({url:'log/log',headerExtra:{signature:req.headers.signature,token:req.headers.token,secretKey:req.headers.secretkey,param:req.headers.param}})
+    console.log('log activty res',callData.responseCode);
+    res.send(callData);
+});
+
 // TICKETING
 app.get("/assignStaffData", async (req, res) => {
     let callData = await gotCall({url:'backend/dashboardit/employee',headerExtra:{token:req.headers.token,companyProfileId:req.headers.companyprofileid}})

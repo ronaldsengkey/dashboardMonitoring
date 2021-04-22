@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
     dataTicketingIT:[],
     dataTransactionAll:[],
     dataCustomerTransactionSocket:[],
-    dataLog:[]
+    dataLog:[],
+    dataActivityLog:[]
   },
   mutations: {
     // SOCKET_manageService(state,payload) {
@@ -90,6 +91,9 @@ export const store = new Vuex.Store({
     },
     getLogMutate(state,payload){
       state.dataLog = payload;
+    },
+    getLogActivityMutate(state,payload){
+      state.dataActivityLog = payload;
     }
   },
   actions: {
@@ -155,6 +159,39 @@ export const store = new Vuex.Store({
       context.commit('getLogMutate',401);
       else 
       context.commit('getLogMutate',[]);
+    },
+    async getLogActivityList(context,data){
+      const headers = {
+        'Content-Type': 'application/json',
+        'signature': data.signature,
+        token: JSON.parse(window.atob(window.localStorage.getItem('loginData'))).token,
+        "Accept": "*/*",
+        secretkey:'',
+        "Cache-Control": "no-cache",
+        'param': JSON.stringify({"accessorCategory": data.category})
+
+      }
+      const request = new Request(
+        'logActivity',
+        {
+          method: "GET",
+          headers:headers,
+        }
+      );
+      let res = await fetch(request)
+      let resJson = await res.json();
+      if(resJson.responseCode == 200 || resJson.responseCode == '200')
+      context.commit('getLogActivityMutate',resJson.data)
+      else if(resJson.responseCode == 401 || resJson.responseCode == '401')
+      context.commit('getLogActivityMutate',401);
+      else 
+      context.commit('getLogActivityMutate',[]);
+    },
+    async emptyLogActivityList(context){
+      context.commit('getLogActivityMutate',[]);
+    },
+    async emptyLogList(context){
+      context.commit('getLogMutate',[]);
     }
   },
   getters: {
@@ -187,7 +224,23 @@ export const store = new Vuex.Store({
           return element;
         });
       }
+      
       return dataLog;
+    },
+    getActivityLog: state => {
+      let dataActivityLog = state.dataActivityLog
+      if(dataActivityLog != 401){
+        dataActivityLog.forEach(element => {
+          delete element['accessorAddress'];
+          delete element['accessorId'];
+          delete element['createdAt'];
+          delete element['createdTime'];
+          delete element['_id'];
+          delete element['__v'];
+          return element;
+        });
+      }
+      return dataActivityLog;
     }
   }
 })
