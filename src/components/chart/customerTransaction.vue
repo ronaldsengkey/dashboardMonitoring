@@ -106,7 +106,11 @@ export default {
         case 'Withdraw':
           string += ' withdraw';
           break;
+        case 'Send & Receive':
+          string += ' pengiriman saldo ultipay';
+          break;
         default:
+          string += ' ' + category
           break;
       }
       return string;
