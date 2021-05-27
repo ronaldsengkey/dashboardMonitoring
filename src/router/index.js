@@ -37,10 +37,14 @@ const routes = [
       }
     ]
   },
+  { path: '*', redirect: '/' }
 ]
 
 const router = new VueRouter({
-  routes
+  base: '/it',
+  hash: false,
+  routes: routes,
+  mode: 'history'
 })
 
 export default router

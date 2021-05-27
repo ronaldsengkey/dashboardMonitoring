@@ -113,7 +113,8 @@ export default {
         let resJson = await res.json();
         this.load = false;
         if(resJson.responseCode == '200'){
-          window.location.href = this.$localIp +'/#/home'
+          // window.location.href = this.$localIp +'/it/home'
+          this.$router.push('home') 
         }
       } catch (error) {
         this.load = false;
@@ -145,7 +146,8 @@ export default {
         this.loginResponse = 'login success';
         window.localStorage.setItem('loginCred',window.btoa(JSON.stringify(resJson.data)));
         setTimeout(() => {
-            window.location.href = redirectUri;
+            // window.location.href = redirectUri;
+            this.$router.push('home') 
         }, 500);
       } else {
         await this.doLogout('Logout');
@@ -176,7 +178,8 @@ export default {
           this.snackbar = true;
           if(resJson.responseCode == '200'){
             this.loginResponse = 'Login Failed, please try again'
-            window.location.href = decodeURIComponent(uriEncodeLogin)
+            // window.location.href = decodeURIComponent(uriEncodeLogin)
+            this.$router.push('login')
           } else {
             this.loginResponse = resJson.responseMessage
           }
@@ -195,7 +198,7 @@ export default {
         };
         this.loading = true;
 
-        let uriEncode = encodeURIComponent(this.$localIp + "/#/home");
+        let uriEncode = encodeURIComponent(this.$localIp + "/it/home");
 
         const headers = {
           "Content-Type": "application/json",

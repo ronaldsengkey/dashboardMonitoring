@@ -139,7 +139,8 @@ export default {
           let resJson = await res.json();
           if(resJson.responseCode == '200'){
             // await this.clearState()
-            window.location.href = decodeURIComponent(uriEncodeLogin)
+            // window.location.href = decodeURIComponent(uriEncodeLogin)
+            this.$router.push('login')
           } else {
             this.snackbar = true;
             this.logoutResponse = resJson.responseMessage

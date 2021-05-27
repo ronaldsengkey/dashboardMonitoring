@@ -833,7 +833,8 @@ export default {
           this.snackbar = true;
           if(resJson.responseCode == '200'){
             this.requestMessage = 'Login Failed, please try again'
-            window.location.href = decodeURIComponent(uriEncodeLogin)
+            // window.location.href = decodeURIComponent(uriEncodeLogin)
+            this.$router.push('login')
           } else {
             this.requestMessage = resJson.responseMessage
           }
