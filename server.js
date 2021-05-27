@@ -3,7 +3,6 @@ var app = express();
 const got = require('got');
 var bodyParser = require('body-parser')
 require('dotenv').config();
-require('express-namespace');
 
 const port = 8109;
 let defHeaders = {'Content-Type': 'application/json',"Accept": "*/*","Cache-Control": "no-cache"};
